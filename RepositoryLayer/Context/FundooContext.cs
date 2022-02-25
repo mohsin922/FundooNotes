@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RepositoryLayer.Context
 {
-    public class FundooContext : DbContext
+    public class FundooContext : DbContext ///dbcontext-for data accessibilit
     {
         public FundooContext(DbContextOptions options)
             : base(options)
