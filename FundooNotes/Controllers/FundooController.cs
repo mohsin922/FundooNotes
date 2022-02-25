@@ -91,6 +91,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                //var email = User.Claims.First(e => e.Type == "Email").Value;
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
                 var result = userBL.ResetPassword(email, password, confirmPassword);
                 return this.Ok(new { isSuccess = true, message = "Reset Password Successfully" });
