@@ -24,5 +24,7 @@ namespace RepositoryLayer.Interface
         /// <returns></returns>
         public LoginResponseModel UserLogin(UserLoginModel userLog);
 
+        public string ForgetPassword(string email);
+        public bool ResetPassword(string email, string password, string confirmPassword);
     }
 }

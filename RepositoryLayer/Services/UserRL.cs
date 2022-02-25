@@ -109,5 +109,47 @@ namespace RepositoryLayer.Services
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public string ForgetPassword(string email)
+        {
+            try
+            {
+                var existingLogin = this.fundooContext.UserTables.Where(X => X.Email == email).FirstOrDefault();
+                if (existingLogin != null)
+                {
+                    var token = GenerateSecurityToken(email, existingLogin.Id);
+                    new MSMQ_Model().MSMQSender(token);
+                    return token;
+                }
+                else
+                    return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool ResetPassword(string email, string password, string confirmPassword)
+        {
+            try
+            {
+                if (password.Equals(confirmPassword))
+                {
+                    User user = fundooContext.UserTables.Where(e => e.Email == email).FirstOrDefault();
+                    user.Password = confirmPassword;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

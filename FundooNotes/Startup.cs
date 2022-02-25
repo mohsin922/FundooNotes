@@ -30,6 +30,7 @@ namespace FundooNotes
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
+
             //services.AddAuthentication(x =>
             //{
             //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,6 +47,7 @@ namespace FundooNotes
             //        ValidAudience = "localhost"
             //    };
             //});
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Welcome to FundooNotes" });
@@ -94,7 +96,7 @@ namespace FundooNotes
 
                     ValidateIssuerSigningKey = true,
 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:secKey"])) //Configuration["JwtToken:SecretKey"]
                 };
 
             });
@@ -109,6 +111,7 @@ namespace FundooNotes
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -119,7 +122,7 @@ namespace FundooNotes
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

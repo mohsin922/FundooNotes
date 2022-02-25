@@ -18,7 +18,6 @@ namespace CommonLayer.Models
         public string LastName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-z]+([._+-][0-9A-Za-z]+)*[@][0-9A-Za-z]+.[a-zA-Z]{2,3}(.[a-zA-Z]{2,3})?$")]
         public string Email { get; set; }
 
         [Required]
