@@ -8,7 +8,7 @@ namespace CommonLayer.Models
     {
         public long NotedId { get; set; }
         public string Title { get; set; }
-        public string Body { get; set; }
+        public string NoteBody { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsPinned { get; set; }
         public bool IsArchived { get; set; }
