@@ -53,10 +53,10 @@ namespace FundooNotes.Controllers
                 var result = userBL.UserLogin(userLog);
                 if (result != null)
                 {
-                    return this.Ok(new { isSuccess = true, message = "Login Successful", data = result });
+                    return this.Ok(new { isSuccess = true, message = "Login Successfull!", data = result });
                 }
                 else
-                    return this.BadRequest(new { isSuccess = false, message = "Login Unsuccessful" });
+                    return this.BadRequest(new { isSuccess = false, message = "Login Unsuccessfull!" });
             }
             catch (Exception)
             {
@@ -72,10 +72,10 @@ namespace FundooNotes.Controllers
                 var result = userBL.ForgetPassword(email);
                 if (result != null)
                 {
-                    return this.Ok(new { isSuccess = true, message = "Send Forget Password Link" });
+                    return this.Ok(new { isSuccess = true, message = "Forgot Password Link sent Successfully!" });
                 }
                 else
-                    return this.BadRequest(new { isSuccess = false, message = "Email not Found" });
+                    return this.BadRequest(new { isSuccess = false, message = "Email Is Incorrect.Try Again!" });
             }
             catch (Exception e)
             {
@@ -91,9 +91,10 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                //var email = User.Claims.First(e => e.Type == "Email").Value;
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
                 var result = userBL.ResetPassword(email, password, confirmPassword);
-                return this.Ok(new { isSuccess = true, message = "Reset Password Successfully" });
+                return this.Ok(new { isSuccess = true, message = "Password Resetted Successfully!" });
 
             }
             catch (Exception e)
