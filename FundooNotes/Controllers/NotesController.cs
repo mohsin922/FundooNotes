@@ -114,5 +114,28 @@ namespace FundooNotes.Controllers
             }
         }
 
+
+        [HttpDelete("DeleteNote")]
+        public IActionResult DeleteNotes(long NotesId)
+        {
+            try
+            {
+                //long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                var delete = this.notebl.DeleteNotes(NotesId);
+                if (delete != null)
+                {
+                    return this.Ok(new { success = true, message = "Note was Deleted Successfully!" });
+                }
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "Note was not Deleted!" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message, InnerException = e.InnerException });
+            }
+        }
+
     }
 }

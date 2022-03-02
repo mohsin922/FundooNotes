@@ -87,7 +87,7 @@ namespace RepositoryLayer.Services
             return null;
         }
 
-        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        public string UpdateNote(NoteModel updateNoteModel, long NotesId)
         {
             try
             {
@@ -111,6 +111,21 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public string DeleteNotes(long NotesId)
+        {
+            var deleteNote = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();
+            if (deleteNote != null)
+            {
+                fundooContext.NotesTable.Remove(deleteNote);
+                this.fundooContext.SaveChanges();
+                return "Notes Deleted Successfully";
+            }
+            else
+            {
+                return null;
             }
         }
     }

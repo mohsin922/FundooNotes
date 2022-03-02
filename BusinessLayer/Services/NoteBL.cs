@@ -55,11 +55,25 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        public string UpdateNote(NoteModel updateNoteModel, long NotesId)
         {
             try
             {
-                return noteRL.UpdateNote(updateNoteModel, NoteId);
+                return noteRL.UpdateNote(updateNoteModel, NotesId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string DeleteNotes(long NotesId)
+        {
+            try
+            {
+                return noteRL.DeleteNotes(NotesId);
+
             }
             catch (Exception)
             {
