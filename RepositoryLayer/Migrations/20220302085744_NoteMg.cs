@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepositoryLayer.Migrations
 {
-    public partial class Second : Migration
+    public partial class NoteMg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace RepositoryLayer.Migrations
                 name: "NotesTable",
                 columns: table => new
                 {
-                    NotedId = table.Column<long>(nullable: false)
+                    NotesId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: true),
                     NoteBody = table.Column<string>(nullable: true),
@@ -23,23 +23,23 @@ namespace RepositoryLayer.Migrations
                     Reminder = table.Column<DateTime>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     ModifiedAt = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<long>(nullable: true)
+                    Id = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NotesTable", x => x.NotedId);
+                    table.PrimaryKey("PK_NotesTable", x => x.NotesId);
                     table.ForeignKey(
-                        name: "FK_NotesTable_UserTables_UserId",
-                        column: x => x.UserId,
+                        name: "FK_NotesTable_UserTables_Id",
+                        column: x => x.Id,
                         principalTable: "UserTables",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NotesTable_UserId",
+                name: "IX_NotesTable_Id",
                 table: "NotesTable",
-                column: "UserId");
+                column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

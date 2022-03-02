@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20220301073400_Second")]
-    partial class Second
+    [Migration("20220302085744_NoteMg")]
+    partial class NoteMg
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entities.Note", b =>
                 {
-                    b.Property<long>("NotedId")
+                    b.Property<long>("NotesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -36,6 +36,9 @@ namespace RepositoryLayer.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsArchived")
                         .HasColumnType("bit");
@@ -58,12 +61,9 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
+                    b.HasKey("NotesId");
 
-                    b.HasKey("NotedId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("Id");
 
                     b.ToTable("NotesTable");
                 });
@@ -104,9 +104,11 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entities.Note", b =>
                 {
-                    b.HasOne("RepositoryLayer.Entities.User", "User")
+                    b.HasOne("RepositoryLayer.Entities.User", "user")
                         .WithMany("NotesTable")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

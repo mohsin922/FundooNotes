@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Models;
 using RepositoryLayer.Entities;
+using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,22 +10,21 @@ namespace BusinessLayer.Services
 {
     public class NoteBL : INoteBL
     {
-        private readonly INoteBL noteBL;
-        public NoteBL(INoteBL noteBL)
+        private readonly INoteRL noteRL;
+        public NoteBL(INoteRL noteRL)
         {
-            this.noteBL = noteBL;
+            this.noteRL = noteRL;
         }
 
         /// <summary>
         /// Adding a new Note Method
         /// </summary>
         /// <param name="noteModel"></param>
-        /// <returns></returns>
-        public bool CreateNote(NoteModel noteModel)
+        public bool CreateNote(NoteModel noteModel, long userId)
         {
             try
             {
-                return this.noteBL.CreateNote(noteModel);
+                return this.noteRL.CreateNote(noteModel,userId);
             }
             catch (Exception)
             {
@@ -32,14 +32,38 @@ namespace BusinessLayer.Services
             }
         }
 
-        public IEnumerable<Note> GetAllNotes()
+        public IEnumerable<Note> RetrieveAllNotes(long userId)
         {
             try
             {
-                return this.noteBL.GetAllNotes();
+                return this.noteRL.RetrieveAllNotes(userId);
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+        public List<Note> RetrieveNote(int NotesId)
+        {
+            try
+            {
+                return this.noteRL.RetrieveNote(NotesId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        {
+            try
+            {
+                return noteRL.UpdateNote(updateNoteModel, NoteId);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

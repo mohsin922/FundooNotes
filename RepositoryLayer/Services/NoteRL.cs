@@ -13,24 +13,25 @@ namespace RepositoryLayer.Services
     public class NoteRL : INoteRL
     {
         public readonly FundooContext fundooContext;
-        IConfiguration _configure;
 
-        public NoteRL(FundooContext fundooContext, IConfiguration configure)
+
+        public NoteRL(FundooContext fundooContext)
         {
             this.fundooContext = fundooContext;
-            _configure = configure;
+
         }
 
         /// <summary>
         /// Creating a CreateNote Method
         /// </summary>
         /// <param name="noteModel"></param>
-        public bool CreateNote(NoteModel noteModel)
+        public bool CreateNote(NoteModel noteModel,long userId)
         {
             try
             {
                 Note newNotes = new Note();
-                newNotes.NotedId = noteModel.NotedId;
+                newNotes.Id = userId;
+                newNotes.NotesId = noteModel.NotesId;
                 newNotes.Title = noteModel.Title;
                 newNotes.NoteBody = noteModel.NoteBody;
                 newNotes.Reminder = noteModel.Reminder;
@@ -41,7 +42,7 @@ namespace RepositoryLayer.Services
                 newNotes.IsDeleted = noteModel.IsDeleted;
                 newNotes.CreatedAt = DateTime.Now;
                 newNotes.ModifiedAt = DateTime.Now;
-                
+
                 this.fundooContext.NotesTable.Add(newNotes); //Adding  data to database
                 //Save the changes in database
                 int result = this.fundooContext.SaveChanges();
@@ -61,13 +62,51 @@ namespace RepositoryLayer.Services
         }
 
         /// <summary>
-        /// Show all his notes to user
+        /// Show all Notes to user
         /// </summary>
-        public IEnumerable<Note> GetAllNotes()
+        public IEnumerable<Note> RetrieveAllNotes(long userId)
         {
             try
             {
-                return this.fundooContext.NotesTable.ToList();
+                var result = this.fundooContext.NotesTable.ToList().Where(x => x.Id == userId);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public List<Note> RetrieveNote(int NotesId)
+        {
+            var NoteList = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();
+            if (NoteList != null)
+            {
+                return fundooContext.NotesTable.Where(list => list.NotesId == NotesId).ToList();
+            }
+            return null;
+        }
+
+        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        {
+            try
+            {
+                var update = fundooContext.NotesTable.Where(X => X.NotesId == updateNoteModel.NotesId).SingleOrDefault();
+                if (update != null)
+                {
+                    update.Title = updateNoteModel.Title;
+                    update.NoteBody = updateNoteModel.NoteBody;
+                    update.ModifiedAt = DateTime.Now;
+                    update.Color = updateNoteModel.Color;
+                    update.BImage = updateNoteModel.BImage;
+
+                    this.fundooContext.SaveChanges();
+                    return "Updated";
+                }
+                else
+                {
+                    return "Not Updated";
+                }
             }
             catch (Exception)
             {
