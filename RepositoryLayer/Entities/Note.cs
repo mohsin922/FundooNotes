@@ -11,7 +11,7 @@ namespace RepositoryLayer.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public long NotedId { get; set; }
+        public long NotesId { get; set; }
         public string Title { get; set; }
         public string NoteBody { get; set; }
         public bool IsDeleted { get; set; }
@@ -23,8 +23,9 @@ namespace RepositoryLayer.Entities
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
 
-        //foreign Key
-        public User User { get; set; }
-
+        //foreign keys
+        [ForeignKey("user")]
+        public long Id { get; set; }
+        public virtual User user { get; set; }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
+using RepositoryLayer.Interfaces;
 using RepositoryLayer.Services;
 using System.Text;
 
@@ -87,6 +88,8 @@ namespace FundooNotes
 
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
+            services.AddTransient<INoteBL, NoteBL>();
+            services.AddTransient<INoteRL, NoteRL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

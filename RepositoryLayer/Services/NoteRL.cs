@@ -13,12 +13,12 @@ namespace RepositoryLayer.Services
     public class NoteRL : INoteRL
     {
         public readonly FundooContext fundooContext;
-        IConfiguration _configure;
 
-        public NoteRL(FundooContext fundooContext, IConfiguration configure)
+
+        public NoteRL(FundooContext fundooContext)
         {
             this.fundooContext = fundooContext;
-            _configure = configure;
+
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace RepositoryLayer.Services
             try
             {
                 Note newNotes = new Note();
-                newNotes.NotedId = noteModel.NotedId;
+                newNotes.NotesId = noteModel.NotesId;
                 newNotes.Title = noteModel.Title;
                 newNotes.NoteBody = noteModel.NoteBody;
                 newNotes.Reminder = noteModel.Reminder;
@@ -41,7 +41,7 @@ namespace RepositoryLayer.Services
                 newNotes.IsDeleted = noteModel.IsDeleted;
                 newNotes.CreatedAt = DateTime.Now;
                 newNotes.ModifiedAt = DateTime.Now;
-                
+
                 this.fundooContext.NotesTable.Add(newNotes); //Adding  data to database
                 //Save the changes in database
                 int result = this.fundooContext.SaveChanges();
@@ -61,7 +61,7 @@ namespace RepositoryLayer.Services
         }
 
         /// <summary>
-        /// Show all his notes to user
+        /// Show all  notes to user
         /// </summary>
         public IEnumerable<Note> GetAllNotes()
         {
