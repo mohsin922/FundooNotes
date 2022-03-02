@@ -20,7 +20,6 @@ namespace BusinessLayer.Services
         /// Adding a new Note Method
         /// </summary>
         /// <param name="noteModel"></param>
-        /// <returns></returns>
         public bool CreateNote(NoteModel noteModel, long userId)
         {
             try
@@ -33,11 +32,11 @@ namespace BusinessLayer.Services
             }
         }
 
-        public IEnumerable<Note> GetAllNotes()
+        public IEnumerable<Note> RetrieveAllNotes(long userId)
         {
             try
             {
-                return this.noteRL.GetAllNotes();
+                return this.noteRL.RetrieveAllNotes(userId);
             }
             catch (Exception)
             {
