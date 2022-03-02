@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Models;
 using RepositoryLayer.Entities;
+using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,10 +10,10 @@ namespace BusinessLayer.Services
 {
     public class NoteBL : INoteBL
     {
-        private readonly INoteBL noteBL;
-        public NoteBL(INoteBL noteBL)
+        private readonly INoteRL noteRL;
+        public NoteBL(INoteRL noteRL)
         {
-            this.noteBL = noteBL;
+            this.noteRL = noteRL;
         }
 
         /// <summary>
@@ -20,11 +21,11 @@ namespace BusinessLayer.Services
         /// </summary>
         /// <param name="noteModel"></param>
         /// <returns></returns>
-        public bool CreateNote(NoteModel noteModel)
+        public bool CreateNote(NoteModel noteModel, long userId)
         {
             try
             {
-                return this.noteBL.CreateNote(noteModel);
+                return this.noteRL.CreateNote(noteModel,userId);
             }
             catch (Exception)
             {
@@ -36,7 +37,7 @@ namespace BusinessLayer.Services
         {
             try
             {
-                return this.noteBL.GetAllNotes();
+                return this.noteRL.GetAllNotes();
             }
             catch (Exception)
             {

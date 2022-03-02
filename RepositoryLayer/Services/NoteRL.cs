@@ -25,11 +25,12 @@ namespace RepositoryLayer.Services
         /// Creating a CreateNote Method
         /// </summary>
         /// <param name="noteModel"></param>
-        public bool CreateNote(NoteModel noteModel)
+        public bool CreateNote(NoteModel noteModel,long userId)
         {
             try
             {
                 Note newNotes = new Note();
+                newNotes.Id = userId;
                 newNotes.NotesId = noteModel.NotesId;
                 newNotes.Title = noteModel.Title;
                 newNotes.NoteBody = noteModel.NoteBody;
