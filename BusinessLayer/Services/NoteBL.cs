@@ -43,5 +43,29 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public List<Note> RetrieveNote(int NotesId)
+        {
+            try
+            {
+                return this.noteRL.RetrieveNote(NotesId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        {
+            try
+            {
+                return noteRL.UpdateNote(updateNoteModel, NoteId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

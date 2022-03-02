@@ -77,5 +77,41 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public List<Note> RetrieveNote(int NotesId)
+        {
+            var NoteList = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();
+            if (NoteList != null)
+            {
+                return fundooContext.NotesTable.Where(list => list.NotesId == NotesId).ToList();
+            }
+            return null;
+        }
+
+        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        {
+            try
+            {
+                var update = fundooContext.NotesTable.Where(X => X.NotesId == updateNoteModel.NotesId).SingleOrDefault();
+                if (update != null)
+                {
+                    update.Title = updateNoteModel.Title;
+                    update.NoteBody = updateNoteModel.NoteBody;
+                    update.ModifiedAt = DateTime.Now;
+                    update.Color = updateNoteModel.Color;
+                    update.BImage = updateNoteModel.BImage;
+
+                    this.fundooContext.SaveChanges();
+                    return "Updated";
+                }
+                else
+                {
+                    return "Not Updated";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

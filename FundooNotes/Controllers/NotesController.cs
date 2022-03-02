@@ -54,6 +54,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+
                 var notes = notebl.RetrieveAllNotes(userId);
                 if (notes != null)
                 {
@@ -71,6 +72,47 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [HttpGet("ShowNote")]
+        public IActionResult RetrieveNote(int NotesId)
+        {
+            try
+            {
+                long note = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                List<Note> notes = this.notebl.RetrieveNote(NotesId);
+                if (notes != null)
+                {
+                    return this.Ok(new { isSuccess = true, message = "Note found Successfully!", data = notes });
+                }
+                else
+                    return this.NotFound(new { isSuccess = false, message = "Note not Found!" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message, InnerException = e.InnerException });
+            }
+        }
+
+        [HttpPut("UpdateNote")]
+        public IActionResult UpdateNote(NoteModel updateNoteModel)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                var result = this.notebl.UpdateNote(updateNoteModel, userid);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Notes Updated Successful", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "No Notes Found" });
+                }
+            }
+            catch (Exception)
+            {
+                return this.BadRequest(new { success = false, message = "Notes Not Updated" });
+            }
+        }
 
     }
 }
