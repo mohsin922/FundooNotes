@@ -241,7 +241,31 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message });
             }
-
+        }
+        /// <summary>
+        /// API for adding a background image for a note
+        /// </summary>
+        /// <param name="imageURL"></param>
+        /// <param name="noteid"></param>
+        /// <returns></returns>
+        [HttpPut("BgImage")]
+        public IActionResult UpdateBgImage(IFormFile imageURL, long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.UpdateBgImage(imageURL, NotesId);
+                if (result)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "BackGround Image has been updated" });
+                }
+                else
+                    return this.BadRequest(new { status = 400, isSuccess = false, Message = "BackGround Image was not updated" });
+            }
+            catch (Exception e)
+            { 
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
+            }
         }
     }
 }

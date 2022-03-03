@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,6 @@ namespace RepositoryLayer.Interfaces
         public bool Pin(long Notesid);
         public bool IsTrash(long NotesId);
         public string UpdateColor(string color, long noteid);
+        public bool UpdateBgImage(IFormFile imageURL, long NotesId);
     }
 }
