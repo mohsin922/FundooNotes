@@ -91,12 +91,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut("UpdateNote")]
-        public IActionResult UpdateNote(NoteModel updateNoteModel)
+        public IActionResult UpdateNote(NoteModel updateNoteModel,long NotesId)
         {
             try
             {
                 long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
-                var result = this.notebl.UpdateNote(updateNoteModel, userid);
+                var result = this.notebl.UpdateNote(updateNoteModel, NotesId);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Notes Updated Successful", data = result });
@@ -163,7 +163,7 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// IsArchive method
+        /// IsPin method
         /// </summary>
         /// <param name="id">Mandatory</param>
         /// <returns>IActionResult</returns>
@@ -190,6 +190,35 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = false, Message = e.Message, InnerException = e.InnerException });
             }
         }
+        /// <summary>
+        /// IsTrash method
+        /// </summary>
+        /// <param name="id">Mandatory</param>
+        /// <returns>IActionResult</returns>
+        [HttpPut]
+        [Route("IsTrash")]
+        public IActionResult IsTrash(long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.IsTrash(NotesId);
+                if (result == true)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Sent To Trash!", data = result });
+                }
+                if (result == false)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Recovered" });
+                }
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message, InnerException = e.InnerException });
+            }
+        }
+
 
     }
 }

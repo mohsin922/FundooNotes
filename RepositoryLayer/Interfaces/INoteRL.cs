@@ -17,5 +17,7 @@ namespace RepositoryLayer.Interfaces
 
         public bool IsArchive(long NotesId);
         public bool Pin(long Notesid);
+        public bool IsTrash(long NotesId);
+        public string AddNoteColor(string color, long noteid);
     }
 }

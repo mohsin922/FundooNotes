@@ -31,7 +31,6 @@ namespace RepositoryLayer.Services
             {
                 Note newNotes = new Note();
                 newNotes.Id = userId;
-                newNotes.NotesId = noteModel.NotesId;
                 newNotes.Title = noteModel.Title;
                 newNotes.NoteBody = noteModel.NoteBody;
                 newNotes.Reminder = noteModel.Reminder;
@@ -91,8 +90,8 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var update = fundooContext.NotesTable.Where(X => X.NotesId == updateNoteModel.NotesId).SingleOrDefault();
-                if (update != null)
+                var update = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();
+                if (update != null && update.NotesId == NotesId)
                 {
                     update.Title = updateNoteModel.Title;
                     update.NoteBody = updateNoteModel.NoteBody;
@@ -183,6 +182,61 @@ namespace RepositoryLayer.Services
                     throw;
                 }
             }
+        }
+        public bool IsTrash(long NotesId)
+        {
+            try
+            {
+                var TrashNote = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (TrashNote.IsDeleted == false)
+                {
+                    TrashNote.IsDeleted = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    TrashNote.IsDeleted = false;
+                    TrashNote.ModifiedAt = DateTime.Now;
+                    this.fundooContext.NotesTable.Update(TrashNote);
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                {
+                    throw;
+                }
+            }
+
+        }
+        public string AddNoteColor(string color, long NotesId)
+        {
+            try
+            {
+                var colorNote = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (colorNote != null)
+                {
+                    colorNote.Color = color;
+                    colorNote.ModifiedAt = DateTime.Now;
+                    this.fundooContext.SaveChangesAsync();
+                    return "Color Updated";
+                }
+                else
+                {
+                    return "Failed to Update";
+                }
+            }
+            catch (Exception)
+            {
+                {
+                    throw;
+                }
+            }
+
         }
     }
 }

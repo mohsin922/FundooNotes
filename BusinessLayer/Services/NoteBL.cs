@@ -112,5 +112,36 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Trash a note
+        /// </summary>
+        public bool IsTrash(long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.IsTrash(NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        //Note Color
+        public string AddNoteColor(string color, long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.AddNoteColor(color, NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
