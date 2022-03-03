@@ -212,7 +212,7 @@ namespace RepositoryLayer.Services
             }
 
         }
-        public string AddNoteColor(string color, long NotesId)
+        public string UpdateColor(string color, long NotesId)
         {
             try
             {
@@ -222,8 +222,8 @@ namespace RepositoryLayer.Services
                 {
                     colorNote.Color = color;
                     colorNote.ModifiedAt = DateTime.Now;
-                    this.fundooContext.SaveChangesAsync();
-                    return "Color Updated";
+                    this.fundooContext.NotesTable.Update(colorNote);
+                    return this.fundooContext.SaveChanges().ToString();
                 }
                 else
                 {

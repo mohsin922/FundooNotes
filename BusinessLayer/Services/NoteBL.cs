@@ -131,11 +131,11 @@ namespace BusinessLayer.Services
         }
 
         //Note Color
-        public string AddNoteColor(string color, long NotesId)
+        public string UpdateColor(string color, long NotesId)
         {
             try
             {
-                var result = this.noteRL.AddNoteColor(color, NotesId);
+                var result = this.noteRL.UpdateColor(color, NotesId);
                 return result;
             }
             catch (Exception)

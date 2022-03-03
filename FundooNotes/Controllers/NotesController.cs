@@ -219,6 +219,29 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// Color method
+        /// </summary>
+        [HttpPut]
+        [Route("Color")]
+        public IActionResult UpdateColor(string color, long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.UpdateColor(color, NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { isSuccess = true, message = "Color has been Updated!", data = color });
+                }
+                else
+                    return this.BadRequest(new { isSuccess = false, message = " Color has not been Added!" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message });
+            }
 
+        }
     }
 }

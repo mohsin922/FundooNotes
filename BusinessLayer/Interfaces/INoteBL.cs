@@ -16,6 +16,6 @@ namespace BusinessLayer.Interfaces
         public bool IsArchive(long NotesId);
         public bool Pin(long NotesId);
         public bool IsTrash(long NotesId);
-        public string AddNoteColor(string color, long NotesId);
+        public string UpdateColor(string color, long NotesId);
     }
 }
