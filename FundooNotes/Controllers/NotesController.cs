@@ -54,7 +54,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-
                 var notes = notebl.RetrieveAllNotes(userId);
                 if (notes != null)
                 {
@@ -77,7 +76,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                long note = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
                 List<Note> notes = this.notebl.RetrieveNote(NotesId);
                 if (notes != null)
                 {
@@ -120,7 +118,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                //long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
                 var delete = this.notebl.DeleteNotes(NotesId);
                 if (delete != null)
                 {
@@ -134,6 +131,63 @@ namespace FundooNotes.Controllers
             catch (Exception e)
             {
                 return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message, InnerException = e.InnerException });
+            }
+        }
+        /// <summary>
+        /// IsArchive method
+        /// </summary>
+        /// <param name="id">Mandatory</param>
+        /// <returns>IActionResult</returns>
+        [HttpPut]
+        [Route("IsArchive")]
+        public IActionResult IsArchive(long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.IsArchive(NotesId);
+                if (result == true)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Archived",data=result });
+                }
+                if (result == false)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Un-Archived" });
+                }
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message, InnerException = e.InnerException });
+            }
+        }
+
+        /// <summary>
+        /// IsArchive method
+        /// </summary>
+        /// <param name="id">Mandatory</param>
+        /// <returns>IActionResult</returns>
+        [HttpPut]
+        [Route("Pin")]
+        public IActionResult Pin(long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.Pin(NotesId);
+                if (result == true)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Pinned!", data = result });
+                }
+                if (result == false)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Un-Pinned" });
+                }
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = false, Message = e.Message, InnerException = e.InnerException });
             }
         }
 

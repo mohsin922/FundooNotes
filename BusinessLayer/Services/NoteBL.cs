@@ -81,5 +81,36 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Un/Archive a note
+        /// </summary>
+        public bool IsArchive(long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.IsArchive(NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Pin/UnPin a note
+        /// </summary>
+        public bool Pin(long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.Pin(NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

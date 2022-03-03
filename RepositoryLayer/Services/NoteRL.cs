@@ -25,7 +25,7 @@ namespace RepositoryLayer.Services
         /// Creating a CreateNote Method
         /// </summary>
         /// <param name="noteModel"></param>
-        public bool CreateNote(NoteModel noteModel,long userId)
+        public bool CreateNote(NoteModel noteModel, long userId)
         {
             try
             {
@@ -128,5 +128,64 @@ namespace RepositoryLayer.Services
                 return null;
             }
         }
+        public bool IsArchive(long NotesId)
+        {
+            try
+            {
+                var model = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (model.IsArchived == false)
+                {
+                    model.IsArchived = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    model.IsArchived = false;
+                    model.ModifiedAt = DateTime.Now;
+                    this.fundooContext.NotesTable.Update(model);
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+            }
+            catch(Exception)
+            {
+                {
+                    throw;
+                }
+            }
+        }
+        public bool Pin(long NotesId)
+        {
+            try
+            {
+                var PinNote = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (PinNote.IsPinned == false)
+                {
+                    PinNote.IsPinned = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    PinNote.IsPinned = false;
+                    PinNote.ModifiedAt = DateTime.Now;
+                    this.fundooContext.NotesTable.Update(PinNote);
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                {
+                    throw;
+                }
+            }
+        }
     }
 }
+        
+
+  
