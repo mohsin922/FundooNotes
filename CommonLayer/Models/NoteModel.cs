@@ -6,7 +6,7 @@ namespace CommonLayer.Models
 {
     public class NoteModel
     {
-        public long NotesId { get; set; }
+        
         public string Title { get; set; }
         public string NoteBody { get; set; }
         public bool IsDeleted { get; set; }
