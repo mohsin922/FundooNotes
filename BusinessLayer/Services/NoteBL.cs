@@ -55,11 +55,56 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        public string UpdateNote(NoteModel updateNoteModel, long NotesId)
         {
             try
             {
-                return noteRL.UpdateNote(updateNoteModel, NoteId);
+                return noteRL.UpdateNote(updateNoteModel, NotesId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string DeleteNotes(long NotesId)
+        {
+            try
+            {
+                return noteRL.DeleteNotes(NotesId);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        /// <summary>
+        /// Un/Archive a note
+        /// </summary>
+        public bool IsArchive(long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.IsArchive(NotesId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Pin/UnPin a note
+        /// </summary>
+        public bool Pin(long NotesId)
+        {
+            try
+            {
+                var result = this.noteRL.Pin(NotesId);
+                return result;
             }
             catch (Exception)
             {

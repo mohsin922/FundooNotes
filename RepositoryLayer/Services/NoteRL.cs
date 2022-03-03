@@ -25,7 +25,7 @@ namespace RepositoryLayer.Services
         /// Creating a CreateNote Method
         /// </summary>
         /// <param name="noteModel"></param>
-        public bool CreateNote(NoteModel noteModel,long userId)
+        public bool CreateNote(NoteModel noteModel, long userId)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace RepositoryLayer.Services
             return null;
         }
 
-        public string UpdateNote(NoteModel updateNoteModel, long NoteId)
+        public string UpdateNote(NoteModel updateNoteModel, long NotesId)
         {
             try
             {
@@ -113,5 +113,79 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        public string DeleteNotes(long NotesId)
+        {
+            var deleteNote = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();
+            if (deleteNote != null)
+            {
+                fundooContext.NotesTable.Remove(deleteNote);
+                this.fundooContext.SaveChanges();
+                return "Notes Deleted Successfully";
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public bool IsArchive(long NotesId)
+        {
+            try
+            {
+                var model = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (model.IsArchived == false)
+                {
+                    model.IsArchived = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    model.IsArchived = false;
+                    model.ModifiedAt = DateTime.Now;
+                    this.fundooContext.NotesTable.Update(model);
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+            }
+            catch(Exception)
+            {
+                {
+                    throw;
+                }
+            }
+        }
+        public bool Pin(long NotesId)
+        {
+            try
+            {
+                var PinNote = this.fundooContext.NotesTable.Where(m => m.NotesId == NotesId).SingleOrDefault();
+
+                if (PinNote.IsPinned == false)
+                {
+                    PinNote.IsPinned = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    PinNote.IsPinned = false;
+                    PinNote.ModifiedAt = DateTime.Now;
+                    this.fundooContext.NotesTable.Update(PinNote);
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                {
+                    throw;
+                }
+            }
+        }
     }
 }
+        
+
+  
