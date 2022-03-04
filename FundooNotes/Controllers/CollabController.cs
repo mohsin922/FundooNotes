@@ -1,8 +1,10 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Context;
+using RepositoryLayer.entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace FundooNotes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CollabController : ControllerBase
     {
         private readonly ICollabBL collabBL;
@@ -49,6 +52,53 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message, InnerException = e.InnerException });
             }
 
+        }
+
+        [HttpGet("Get")]
+        public IActionResult GetAllCollabs(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                IEnumerable<Collaborator> collabnote = fundooContext.CollabTable.Where(x => x.NotesId == NotesId).ToList();
+                if (collabnote != null)
+                {
+                    var result = collabBL.GetAllCollabs(NotesId);
+                    if (result != null)
+                    {
+                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = result });
+
+                    }
+                    else
+                    {
+                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                    }
+                }
+                return this.Unauthorized(new { status = 401, isSuccess = false, Message = "Not authorized to view all collabs of this note" });
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpDelete("Remove")]
+        public IActionResult RemoveCollab(long collabID)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.collabBL.RemoveCollab(collabID);
+                if (result != null)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "Removed collab for User sucessfully!", data = collabID });
+                }
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = "Sorry! Couldn't remove the User from Collaboration. " });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
+            }
         }
     }
 }

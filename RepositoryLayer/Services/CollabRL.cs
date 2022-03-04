@@ -23,13 +23,6 @@ namespace RepositoryLayer.Services
         {
             this.fundooContext = fundooContext;
         }
-
-        /// <summary>
-        /// Function to add a collaborator to a note
-        /// </summary>
-        /// <param name="collaborator"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         public bool AddCollaboration(CollabModel collabModel)
         {
             try
@@ -47,9 +40,7 @@ namespace RepositoryLayer.Services
                     //Adding the data to database
                     this.fundooContext.CollabTable.Add(collaborator);
                 }
-
-                //Save the changes in database
-                int result = this.fundooContext.SaveChanges();
+                int result = this.fundooContext.SaveChanges();   //Save the changes in database
                 if (result > 0)
                 {
                     return true;
@@ -62,6 +53,32 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+        public IEnumerable<Collaborator> GetAllCollabs(long NotesId)
+        {
+            try
+            {
+                var result = this.fundooContext.CollabTable.ToList().Where(x => x.NotesId == NotesId);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public string RemoveCollab(long collabID)
+        {
+            var collab = fundooContext.CollabTable.Where(X => X.CollabId == collabID).SingleOrDefault();
+            if (collab != null)
+            {
+                fundooContext.CollabTable.Remove(collab);
+                this.fundooContext.SaveChanges();
+                return "Successfully removed User from collaboration ";
+            }
+            else
+            {
+                return null;
             }
         }
     }
