@@ -28,7 +28,7 @@ namespace FundooNotes.Controllers
         }
 
 
-        [HttpPost("CreateNote")]
+        [HttpPost("Create")]
         public IActionResult CreateNote(NoteModel noteModel)
         {
             try
@@ -49,7 +49,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("ShowAllNotes")]
+        [HttpGet("ShowAll")]
         public IActionResult RetrieveAllNotes(long userId)
         {
             try
@@ -71,7 +71,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("ShowNote")]
+        [HttpGet("Show")]
         public IActionResult RetrieveNote(int NotesId)
         {
             try
@@ -90,7 +90,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPut("UpdateNote")]
+        [HttpPut("Update")]
         public IActionResult UpdateNote(NoteModel updateNoteModel,long NotesId)
         {
             try
@@ -113,7 +113,7 @@ namespace FundooNotes.Controllers
         }
 
 
-        [HttpDelete("DeleteNote")]
+        [HttpDelete("Delete")]
         public IActionResult DeleteNotes(long NotesId)
         {
             try

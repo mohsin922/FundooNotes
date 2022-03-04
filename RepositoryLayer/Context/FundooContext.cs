@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepositoryLayer.entities;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace RepositoryLayer.Context
         }
         public DbSet<User> UserTables { get; set; } //connecting entity w Database
         public DbSet<Note> NotesTable { get; set; }
+        public DbSet<Collaborator> CollabTable { get; set; }
     }
 }
