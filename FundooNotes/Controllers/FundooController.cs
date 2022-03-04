@@ -58,9 +58,9 @@ namespace FundooNotes.Controllers
                 else
                     return this.BadRequest(new { isSuccess = false, message = "Login Unsuccessfull!" });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw new Exception(e.Message);
             }
         }
 

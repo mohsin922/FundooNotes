@@ -12,5 +12,6 @@ namespace BusinessLayer.Interfaces
     {
         public bool AddCollaboration(CollabModel collabModel);
         public IEnumerable<Collaborator> GetAllCollabs(long NotesId);
+        public string RemoveCollab(long collabID);
     }
 }

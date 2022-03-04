@@ -18,13 +18,15 @@ namespace FundooNotes.Controllers
     public class NotesController : ControllerBase
     {
         private readonly INoteBL notebl;
+        private readonly FundooContext fundooContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public NotesController(INoteBL notebl, FundooContext funContext)
+        public NotesController(INoteBL notebl, FundooContext fundooContext)
         {
             this.notebl = notebl;
+            this.fundooContext = fundooContext;
         }
 
 
@@ -34,9 +36,10 @@ namespace FundooNotes.Controllers
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                if (this.notebl.CreateNote(noteModel, userId))
+                var note =this.notebl.CreateNote(noteModel, userId);
+                if(note)
                 {
-                    return this.Ok(new { status = 200, isSuccess = true, message = " Note was created Successfully! " });
+                    return this.Ok(new { status = 200, isSuccess = true, message = " Note was created Successfully! ",data = note});
                 }
                 else
                 {
