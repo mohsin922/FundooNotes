@@ -50,5 +50,28 @@ namespace FundooNotes.Controllers
             }
 
         }
+
+        [HttpGet("Get")]
+        public IActionResult GetAllCollabs(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = collabBL.GetAllCollabs(NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = result });
+
+                }
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, message = ex.InnerException.Message });
+            }
+        }
     }
 }

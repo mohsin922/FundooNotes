@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Models;
+using RepositoryLayer.entities;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,18 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+        public IEnumerable<Collaborator> GetAllCollabs(long NotesId)
+        {
+            try
+            {
+                return collabRL.GetAllCollabs(NotesId);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

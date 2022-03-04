@@ -64,5 +64,17 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Collaborator> GetAllCollabs(long NotesId)
+        {
+            try
+            {
+                var result = this.fundooContext.CollabTable.ToList().Where(x => x.NotesId == NotesId);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
