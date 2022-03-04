@@ -22,25 +22,23 @@ namespace RepositoryLayer.Services
             try
             {
                 var note = fundooContext.NotesTable.Where(x => x.NotesId == labelModel.NoteId).FirstOrDefault();
-                if (note != null)
+                //if (note != null)
+                Label label = new Label()
                 {
-                    Label label = new Label
-                    {
-                        LabelName = labelModel.LabelName,
-                        NoteId = note.NotesId,
-                        LabelID = note.Id
-                    };
+                    LabelName = labelModel.LabelName,
+                    NoteId = labelModel.NoteId,
+                    UserId = note.Id
+                };
 
-                    this.fundooContext.LabelTable.Add(label);
-                    int result = this.fundooContext.SaveChanges();
-                    if (result > 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                this.fundooContext.LabelTable.Add(label);
+                int result = this.fundooContext.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
                 }
                 return false;
             }
+
             catch (Exception)
             {
                 throw;
