@@ -100,11 +100,51 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("UserTables");
                 });
 
+            modelBuilder.Entity("RepositoryLayer.entities.Collaborator", b =>
+                {
+                    b.Property<long>("CollabId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CollabEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NotesId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CollabId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("NotesId");
+
+                    b.ToTable("CollabTable");
+                });
+
             modelBuilder.Entity("RepositoryLayer.Entities.Note", b =>
                 {
                     b.HasOne("RepositoryLayer.Entities.User", "user")
-                        .WithMany("NotesTable")
+                        .WithMany()
                         .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RepositoryLayer.entities.Collaborator", b =>
+                {
+                    b.HasOne("RepositoryLayer.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RepositoryLayer.Entities.Note", "note")
+                        .WithMany()
+                        .HasForeignKey("NotesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

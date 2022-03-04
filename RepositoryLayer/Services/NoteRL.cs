@@ -1,4 +1,7 @@
-﻿using CommonLayer.Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
@@ -13,12 +16,12 @@ namespace RepositoryLayer.Services
     public class NoteRL : INoteRL
     {
         public readonly FundooContext fundooContext;
+        readonly IConfiguration config;
 
-
-        public NoteRL(FundooContext fundooContext)
+        public NoteRL(FundooContext fundooContext, IConfiguration config)
         {
             this.fundooContext = fundooContext;
-
+            this.config = config;
         }
 
         /// <summary>
@@ -29,18 +32,20 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                Note newNotes = new Note();
-                newNotes.Id = userId;
-                newNotes.Title = noteModel.Title;
-                newNotes.NoteBody = noteModel.NoteBody;
-                newNotes.Reminder = noteModel.Reminder;
-                newNotes.Color = noteModel.Color;
-                newNotes.BImage = noteModel.BImage;
-                newNotes.IsArchived = noteModel.IsArchived;
-                newNotes.IsPinned = noteModel.IsPinned;
-                newNotes.IsDeleted = noteModel.IsDeleted;
-                newNotes.CreatedAt = DateTime.Now;
-                newNotes.ModifiedAt = DateTime.Now;
+                Note newNotes = new Note
+                {
+                    Id = userId,
+                    Title = noteModel.Title,
+                    NoteBody = noteModel.NoteBody,
+                    Reminder = noteModel.Reminder,
+                    Color = noteModel.Color,
+                    BImage = noteModel.BImage,
+                    IsArchived = noteModel.IsArchived,
+                    IsPinned = noteModel.IsPinned,
+                    IsDeleted = noteModel.IsDeleted,
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now
+                };
 
                 this.fundooContext.NotesTable.Add(newNotes); //Adding  data to database
                 //Save the changes in database
@@ -212,7 +217,7 @@ namespace RepositoryLayer.Services
             }
 
         }
-        public string AddNoteColor(string color, long NotesId)
+        public string UpdateColor(string color, long NotesId)
         {
             try
             {
@@ -222,8 +227,8 @@ namespace RepositoryLayer.Services
                 {
                     colorNote.Color = color;
                     colorNote.ModifiedAt = DateTime.Now;
-                    this.fundooContext.SaveChangesAsync();
-                    return "Color Updated";
+                    this.fundooContext.NotesTable.Update(colorNote);
+                    return this.fundooContext.SaveChanges().ToString();
                 }
                 else
                 {
@@ -238,6 +243,51 @@ namespace RepositoryLayer.Services
             }
 
         }
+        /// <summary>
+        /// function for adding a background image for a Note
+        /// </summary>
+        /// <param name="imageURL"></param>
+        /// <param name="noteid"></param>
+        /// <returns></returns>
+        public bool UpdateBgImage(IFormFile imageURL, long NotesId)
+        {
+            try
+            {
+                if (NotesId > 0)
+                {
+                    var note = this.fundooContext.NotesTable.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                    if (note != null)
+                    {
+                        Account acc = new Account(
+                            config["Cloudinary:cloud_name"],
+                            config["Cloudinary:api_key"],
+                            config["Cloudinary:api_secret"]
+                            );
+                        Cloudinary cloudinary = new Cloudinary(acc);
+                        var path = imageURL.OpenReadStream();
+                        ImageUploadParams upLoadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(imageURL.FileName, path)
+                        };
+                        var UploadResult = cloudinary.Upload(upLoadParams);
+                        note.BImage = UploadResult.Url.ToString();
+                        note.ModifiedAt = DateTime.Now;
+                        this.fundooContext.SaveChangesAsync();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
         

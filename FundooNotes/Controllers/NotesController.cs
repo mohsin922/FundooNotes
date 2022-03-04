@@ -28,7 +28,7 @@ namespace FundooNotes.Controllers
         }
 
 
-        [HttpPost("CreateNote")]
+        [HttpPost("Create")]
         public IActionResult CreateNote(NoteModel noteModel)
         {
             try
@@ -49,7 +49,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("ShowAllNotes")]
+        [HttpGet("ShowAll")]
         public IActionResult RetrieveAllNotes(long userId)
         {
             try
@@ -71,7 +71,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("ShowNote")]
+        [HttpGet("Show")]
         public IActionResult RetrieveNote(int NotesId)
         {
             try
@@ -90,7 +90,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPut("UpdateNote")]
+        [HttpPut("Update")]
         public IActionResult UpdateNote(NoteModel updateNoteModel,long NotesId)
         {
             try
@@ -113,7 +113,7 @@ namespace FundooNotes.Controllers
         }
 
 
-        [HttpDelete("DeleteNote")]
+        [HttpDelete("Delete")]
         public IActionResult DeleteNotes(long NotesId)
         {
             try
@@ -219,6 +219,53 @@ namespace FundooNotes.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Color method
+        /// </summary>
+        [HttpPut]
+        [Route("Color")]
+        public IActionResult UpdateColor(string color, long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.UpdateColor(color, NotesId);
+                if (result != null)
+                {
+                    return this.Ok(new { isSuccess = true, message = "Color has been Updated!", data = color });
+                }
+                else
+                    return this.BadRequest(new { isSuccess = false, message = " Color has not been Added!" });
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message });
+            }
+        }
+        /// <summary>
+        /// API for adding a background image for a note
+        /// </summary>
+        /// <param name="imageURL"></param>
+        /// <param name="noteid"></param>
+        /// <returns></returns>
+        [HttpPut("BgImage")]
+        public IActionResult UpdateBgImage(IFormFile imageURL, long NotesId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.notebl.UpdateBgImage(imageURL, NotesId);
+                if (result)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, Message = "BackGround Image has been updated" });
+                }
+                else
+                    return this.BadRequest(new { status = 400, isSuccess = false, Message = "BackGround Image was not updated" });
+            }
+            catch (Exception e)
+            { 
+                return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
+            }
+        }
     }
 }
