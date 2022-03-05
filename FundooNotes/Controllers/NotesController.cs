@@ -60,7 +60,7 @@ namespace FundooNotes.Controllers
                 var notes = notebl.RetrieveAllNotes(userId);
                 if (notes != null)
                 {
-                    return this.Ok(new { isSuccess = true, message = " All Notes Displayed Successfully!", data = notes });
+                    return this.Ok(new { isSuccess = true, message = " All Notes are Displayed Successfully!", data = notes });
 
                 }
                 else
@@ -74,7 +74,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("Show")]
+        [HttpGet("Show{NoteID}")]
         public IActionResult RetrieveNote(int NotesId)
         {
             try

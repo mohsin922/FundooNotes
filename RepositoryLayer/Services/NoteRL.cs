@@ -272,7 +272,7 @@ namespace RepositoryLayer.Services
                         var UploadResult = cloudinary.Upload(upLoadParams);
                         note.BImage = UploadResult.Url.ToString();
                         note.ModifiedAt = DateTime.Now;
-                        this.fundooContext.SaveChangesAsync();
+                        this.fundooContext.SaveChanges();
                         return true;
                     }
                     else

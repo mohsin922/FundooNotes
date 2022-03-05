@@ -44,5 +44,27 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        public IEnumerable<Label> GetAllLabels(long userId)
+        {
+            try
+            {
+                var result = this.fundooContext.LabelTable.ToList().Where(x => x.UserId == userId);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+        public List<Label> GetByLabelID(long labelID)
+        {
+            var label = fundooContext.LabelTable.Where(X => X.LabelID == labelID).SingleOrDefault();
+            if (label != null)
+            {
+                return fundooContext.LabelTable.Where(X => X.LabelID == labelID).ToList();
+            }
+            return null;
+        }
     }
 }

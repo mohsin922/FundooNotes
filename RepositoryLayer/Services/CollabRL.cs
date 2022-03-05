@@ -27,13 +27,13 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var Collabnote = this.fundooContext.NotesTable.Where(x => x.NotesId == collabModel.NotesId).SingleOrDefault();
-                var Collabuser = this.fundooContext.UserTables.Where(x => x.Email == collabModel.EmailId).SingleOrDefault();
-                if (Collabnote != null && Collabuser != null)
+                var note = this.fundooContext.NotesTable.Where(x => x.NotesId == collabModel.NotesId).SingleOrDefault();
+                var user = this.fundooContext.UserTables.Where(x => x.Email == collabModel.EmailId).SingleOrDefault();
+                if (note != null && user != null)
                 {
                     Collaborator collaborator = new Collaborator
                     {
-                        Id = Collabuser.Id,
+                        Id = user.Id,
                         NotesId = collabModel.NotesId,
                         CollabEmail = collabModel.EmailId
                     };

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Models;
+using RepositoryLayer.Entities;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,31 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public IEnumerable<Label> GetAllLabels(long userId)
+        {
+            try
+            {
+                return labelRL.GetAllLabels(userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public List<Label> GetByLabelID(long labelID)
+        {
+            try
+            {
+                return labelRL.GetByLabelID(labelID);
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
