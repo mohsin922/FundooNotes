@@ -92,5 +92,53 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [HttpPut("Update")]
+        public IActionResult UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                var result = this.labelBL.UpdateLabel(labelModel, labelID);
+                if (result != null)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, message = "Label Updated Successfully", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "No Label Found" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
+            }
+        }
+        /// <summary>
+        /// Api for Deleting a label by labelID
+        /// </summary>
+        /// <param name="labelID"></param>
+        /// <returns></returns>
+        [HttpDelete("Delete")]
+        public IActionResult DeleteLabel(long labelID)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
+                var delete = this.labelBL.DeleteLabel(labelID);
+                if (delete != null)
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, message = "Label has been Deleted Successfully" });
+                }
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "Label was not found" });
+                }
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
+            }
+        }
+
     }
 }

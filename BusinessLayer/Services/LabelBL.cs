@@ -57,5 +57,29 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public string UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                return labelRL.UpdateLabel(labelModel, labelID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string DeleteLabel(long labelID)
+        {
+            try
+            {
+                return labelRL.DeleteLabel(labelID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
