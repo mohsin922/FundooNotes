@@ -86,10 +86,10 @@ namespace FundooNotes.Controllers
                 var labels = this.labelBL.GetlabelByNotesId(NotesId);
                 if (labels != null)
                 {
-                    return this.Ok(new { status = 200, isSuccess = true, message = " Specific label found Successfully", data = labels });
+                    return this.Ok(new { status = 200, isSuccess = true, message = " Specific label was found Successfully", data = labels });
                 }
                 else
-                    return this.NotFound(new { isSuccess = false, message = "Specific label not Found" });
+                    return this.NotFound(new { isSuccess = false, message = "Specific label not Found!" });
             }
             catch (Exception e)
             {

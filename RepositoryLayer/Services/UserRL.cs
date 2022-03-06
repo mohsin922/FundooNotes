@@ -36,7 +36,7 @@ namespace RepositoryLayer.Services
                 newUser.FirstName = userRegModel.FirstName;
                 newUser.LastName = userRegModel.LastName;
                 newUser.Email = userRegModel.Email;
-                newUser.Password = userRegModel.Password;
+                newUser.Password = EncryptPassword(userRegModel.Password);
                 fundooContext.UserTables.Add(newUser);
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
@@ -53,6 +53,19 @@ namespace RepositoryLayer.Services
             }
         }
 
+        /// <summary>
+        /// Method for EncryptPassword
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private string EncryptPassword(string password)
+        {
+            string PasswordEntered = "";
+            byte[] hide = new byte[password.Length];
+            hide = Encoding.UTF8.GetBytes(password);
+            PasswordEntered = Convert.ToBase64String(hide);
+            return PasswordEntered;
+        }
         /// <summary>
         /// Show All Registerd Login Data
         /// </summary>
