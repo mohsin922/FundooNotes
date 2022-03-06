@@ -57,14 +57,22 @@ namespace RepositoryLayer.Services
                 throw new Exception(e.Message);
             }
         }
-        public List<Label> GetByLabelID(long labelID)
+        /// <summary>
+        /// Method to get labels by NotesId
+        /// </summary>
+        /// <param name="NotesId"></param>
+        /// <returns></returns>
+        public List<Label> GetlabelByNotesId(long NotesId)
         {
-            var label = fundooContext.LabelTable.Where(X => X.LabelID == labelID).SingleOrDefault();
-            if (label != null)
+            try
             {
-                return fundooContext.LabelTable.Where(X => X.LabelID == labelID).ToList();
+                var response = this.fundooContext.LabelTable.Where(x => x.NoteId == NotesId).ToList();
+                return response;
             }
-            return null;
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         public string UpdateLabel(LabelModel labelModel, long labelID)
