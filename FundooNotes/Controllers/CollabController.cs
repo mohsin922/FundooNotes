@@ -60,22 +60,18 @@ namespace FundooNotes.Controllers
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                IEnumerable<Collaborator> collabnote = fundooContext.CollabTable.Where(x => x.NotesId == NotesId).ToList();
-                if (collabnote != null)
+                var result = collabBL.GetAllCollabs(NotesId);
+                if (result != null)
                 {
-                    var result = collabBL.GetAllCollabs(NotesId);
-                    if (result != null)
-                    {
-                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = result });
+                    return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = result });
 
-                    }
-                    else
-                    {
-                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
-                    }
                 }
-                return this.Unauthorized(new { status = 401, isSuccess = false, Message = "Not authorized to view all collabs of this note" });
+                else
+                {
+                    return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                }
             }
+
             catch (Exception ex)
             {
                 return this.BadRequest(new { Status = 401, isSuccess = false, message = ex.InnerException.Message });
