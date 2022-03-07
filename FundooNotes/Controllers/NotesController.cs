@@ -1,5 +1,10 @@
 ﻿namespace Microsoft.Xxx
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     using BusinessLayer.Interfaces;
     using CommonLayer.Models;
     using Microsoft.AspNetCore.Authorization;
@@ -11,11 +16,6 @@
     using Newtonsoft.Json;
     using RepositoryLayer.Context;
     using RepositoryLayer.Entities;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     namespace FundooNotes.Controllers
     {
@@ -29,9 +29,8 @@
             private readonly IMemoryCache memoryCache;
             private readonly IDistributedCache distributedCache;
 
-
             /// <summary>
-            /// Constructor
+            /// Constructor for intialising
             /// </summary>
             public NotesController(INoteBL notebl, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache)
             {
@@ -40,7 +39,6 @@
                 this.memoryCache = memoryCache;
                 this.distributedCache = distributedCache;
             }
-
 
             [HttpPost("Create")]
             public IActionResult CreateNote(NoteModel noteModel)
@@ -69,11 +67,10 @@
             {
                 try
                 {
-                    var notes = notebl.RetrieveAllNotes(userId);
+                    var notes = this.notebl.RetrieveAllNotes(userId);
                     if (notes != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = " All Notes are Displayed Successfully!", data = notes });
-
+                        return this.Ok(new { isSuccess = true, message = " All Notes of User are Displayed Successfully!", data = notes });
                     }
                     else
                     {
@@ -87,9 +84,9 @@
             }
 
             /// <summary>
-            /// All notes by userers
+            /// All notes by users
             /// </summary>
-            /// <returns></returns>
+            /// <returns>returns</returns>
             [HttpGet]
             [Route("GetAll")]
             public IActionResult GetAllUserNotes()
@@ -113,10 +110,12 @@
                     List<Note> notes = this.notebl.RetrieveNote(NotesId);
                     if (notes != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = "Note found Successfully!", data = notes });
+                        return this.Ok(new { isSuccess = true, message = "Specific Note was found Successfully!", data = notes });
                     }
                     else
+                    {
                         return this.NotFound(new { isSuccess = false, message = "Note not Found!" });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -146,7 +145,6 @@
                 }
             }
 
-
             [HttpDelete("Delete")]
             public IActionResult DeleteNotes(long NotesId)
             {
@@ -167,10 +165,11 @@
                     return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message, InnerException = e.InnerException });
                 }
             }
+
             /// <summary>
             /// IsArchive method
             /// </summary>
-            /// <param name="id">Mandatory</param>
+            /// <param name="NotesId">Mandatory</param>
             /// <returns>IActionResult</returns>
             [HttpPut]
             [Route("IsArchive")]
@@ -188,6 +187,7 @@
                     {
                         return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Un-Archived" });
                     }
+
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
                 }
                 catch (Exception e)
@@ -199,7 +199,7 @@
             /// <summary>
             /// IsPin method
             /// </summary>
-            /// <param name="id">Mandatory</param>
+            /// <param name="NotesId">Mandatory</param>
             /// <returns>IActionResult</returns>
             [HttpPut]
             [Route("Pin")]
@@ -217,6 +217,7 @@
                     {
                         return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Un-Pinned" });
                     }
+
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
                 }
                 catch (Exception e)
@@ -224,10 +225,11 @@
                     return this.BadRequest(new { Status = false, Message = e.Message, InnerException = e.InnerException });
                 }
             }
+
             /// <summary>
             /// IsTrash method
             /// </summary>
-            /// <param name="id">Mandatory</param>
+            /// <param name="NotesId">Mandatory</param>
             /// <returns>IActionResult</returns>
             [HttpPut]
             [Route("IsTrash")]
@@ -245,6 +247,7 @@
                     {
                         return this.Ok(new { status = 200, isSuccess = true, Message = "Note has been Recovered" });
                     }
+
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = "Error" });
                 }
                 catch (Exception e)
@@ -269,19 +272,22 @@
                         return this.Ok(new { isSuccess = true, message = "Color has been Updated!", data = color });
                     }
                     else
+                    {
                         return this.BadRequest(new { isSuccess = false, message = " Color has not been Added!" });
+                    }
                 }
                 catch (Exception e)
                 {
                     return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.Message });
                 }
             }
+
             /// <summary>
             /// API for adding a background image for a note
             /// </summary>
             /// <param name="imageURL"></param>
-            /// <param name="noteid"></param>
-            /// <returns></returns>
+            /// <param name="NotesId"></param>
+            /// <returns>IActionResult</returns>
             [HttpPut("BgImage")]
             public IActionResult UpdateBgImage(IFormFile imageURL, long NotesId)
             {
@@ -294,7 +300,9 @@
                         return this.Ok(new { status = 200, isSuccess = true, Message = "BackGround Image has been updated" });
                     }
                     else
+                    {
                         return this.BadRequest(new { status = 400, isSuccess = false, Message = "BackGround Image was not updated" });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -324,6 +332,7 @@
                         .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                     await distributedCache.SetAsync(cacheKey, redisNoteList, options);
                 }
+
                 return Ok(NoteList);
             }
         }

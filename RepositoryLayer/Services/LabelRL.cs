@@ -5,7 +5,6 @@ using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace RepositoryLayer.Services
 {
@@ -44,25 +43,12 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-
-        public IEnumerable<Label> GetAllLabels(long userId)
-        {
-            try
-            {
-                var result = this.fundooContext.LabelTable.ToList().Where(x => x.UserId == userId);
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
         /// <summary>
         /// Method to get labels by NotesId
         /// </summary>
         /// <param name="NotesId"></param>
         /// <returns></returns>
-        public List<Label> Getlabel(long NotesId)
+        public List<Label> GetlabelByNotesId(long NotesId)
         {
             try
             {
@@ -115,6 +101,24 @@ namespace RepositoryLayer.Services
             else
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Method to get all Labels
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IEnumerable<Label> GetAllLabels()
+        {
+            try
+            {
+                var result = this.fundooContext.LabelTable.ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

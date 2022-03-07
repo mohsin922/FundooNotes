@@ -4,7 +4,6 @@ using RepositoryLayer.entities;
 using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLayer.Services
 {
@@ -28,7 +27,7 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public IEnumerable<Collaborator> GetAllCollabs(long NotesId)
+        public IEnumerable<Collaborator> GetCollabsbyNoteId(long NotesId)
         {
             try
             {
