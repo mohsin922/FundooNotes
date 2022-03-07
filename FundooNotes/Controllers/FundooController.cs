@@ -68,7 +68,7 @@
                     var result = userBL.UserLogin(userLog);
                     if (result != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = "Login Successfull!", data = result });
+                        return this.Ok(new { isSuccess = true, message = "Login Successfull!", data = result.Token });
                     }
                     else
                         return this.BadRequest(new { isSuccess = false, message = "Login Unsuccessfull!" });

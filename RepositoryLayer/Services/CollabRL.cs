@@ -81,5 +81,23 @@ namespace RepositoryLayer.Services
                 return null;
             }
         }
+
+
+        /// <summary>
+        /// Method for getting all collaborator
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Collaborator> GetAllCollabs()
+        {
+            try
+            {
+                var result = this.fundooContext.CollabTable.ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

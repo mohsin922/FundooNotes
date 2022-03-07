@@ -99,6 +99,29 @@
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
+
+            [HttpGet("GetAll")]
+            public IActionResult GetAllCollabs()
+            {
+                try
+                {
+                    long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                    var collabs = collabBL.GetAllCollabs();
+                    if (collabs != null)
+                    {
+                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = collabs });
+
+                    }
+                    else
+                    {
+                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return this.BadRequest(new { Status = 401, isSuccess = false, message = ex.InnerException.Message });
+                }
+            }
         }
     }
 }
