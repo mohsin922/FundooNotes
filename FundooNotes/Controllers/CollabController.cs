@@ -11,7 +11,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Caching.Distributed;
+    using System.Text;
+    using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json;
 
     namespace FundooNotes.Controllers
     {
@@ -22,10 +26,14 @@
         {
             private readonly ICollabBL collabBL;
             private readonly FundooContext fundooContext;
-            public CollabController(ICollabBL collabBL, FundooContext fundooContext)
+            private readonly IMemoryCache memoryCache;
+            private readonly IDistributedCache distributedCache;
+            public CollabController(ICollabBL collabBL, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache)
             {
                 this.collabBL = collabBL;
                 this.fundooContext = fundooContext;
+                this.memoryCache = memoryCache;
+                this.distributedCache = distributedCache;
             }
 
             [HttpPost]
@@ -98,6 +106,54 @@
                 {
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
                 }
+            }
+
+            [HttpGet("GetAll")]
+            public IActionResult GetAllCollabs()
+            {
+                try
+                {
+                    long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                    var collabs = collabBL.GetAllCollabs();
+                    if (collabs != null)
+                    {
+                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = collabs });
+
+                    }
+                    else
+                    {
+                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return this.BadRequest(new { Status = 401, isSuccess = false, message = ex.InnerException.Message });
+                }
+            }
+
+            [HttpGet("redis")]
+            public async Task<IActionResult> GetAllCollaboratorUsingRedisCache()
+            {
+                var cacheKey = "CollabsList";
+                string serializedList;
+                var CollabsList = new List<Collaborator>();
+                var redisCollabsList = await distributedCache.GetAsync(cacheKey);
+                if (redisCollabsList != null)
+                {
+                    serializedList = Encoding.UTF8.GetString(redisCollabsList);
+                    CollabsList = JsonConvert.DeserializeObject<List<Collaborator>>(serializedList);
+                }
+                else
+                {
+                    CollabsList = await fundooContext.CollabTable.ToListAsync();  // Comes from Microsoft.EntityFrameworkCore Namespace
+                    serializedList = JsonConvert.SerializeObject(CollabsList);
+                    redisCollabsList = Encoding.UTF8.GetBytes(serializedList);
+                    var options = new DistributedCacheEntryOptions()
+                        .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                    await distributedCache.SetAsync(cacheKey, redisCollabsList, options);
+                }
+                return Ok(CollabsList);
             }
         }
     }

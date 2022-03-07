@@ -54,5 +54,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public IEnumerable<Collaborator> GetAllCollabs()
+        {
+            try
+            {
+                return collabRL.GetAllCollabs();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
