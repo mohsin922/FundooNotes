@@ -12,6 +12,7 @@ namespace RepositoryLayer.Interfaces
     {
         public bool CreateNote(NoteModel noteModel, long userId);
         public IEnumerable<Note> RetrieveAllNotes(long userId);
+        public List<Note> GetAllUserNotes();
         public List<Note> RetrieveNote(int NotesId);
         public string UpdateNote(NoteModel updateNoteModel, long NotesId);
         public string DeleteNotes(long NotesId);

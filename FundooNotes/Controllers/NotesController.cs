@@ -74,6 +74,25 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// All notes by userers
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetAll")]
+        public IActionResult GetAllUserNotes()
+        {
+            try
+            {
+                IEnumerable<Note> notes = this.notebl.GetAllUserNotes();
+                return Ok(notes);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("Show{NoteID}")]
         public IActionResult RetrieveNote(int NotesId)
         {

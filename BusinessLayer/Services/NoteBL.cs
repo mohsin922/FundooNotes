@@ -44,6 +44,19 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+
+        public List<Note> GetAllUserNotes()
+        {
+            try
+            {
+                return noteRL.GetAllUserNotes();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public List<Note> RetrieveNote(int NotesId)
         {
             try

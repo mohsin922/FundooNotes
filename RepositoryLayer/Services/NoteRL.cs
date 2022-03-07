@@ -81,6 +81,23 @@ namespace RepositoryLayer.Services
             }
         }
 
+        /// <summary>
+        /// all notes from all userers
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Note> GetAllUserNotes()
+        {
+            try
+            {
+                return this.fundooContext.NotesTable.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public List<Note> RetrieveNote(int NotesId)
         {
             var NoteList = fundooContext.NotesTable.Where(X => X.NotesId == NotesId).SingleOrDefault();

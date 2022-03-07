@@ -72,25 +72,31 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("GetByLabelID")]
-        public IActionResult GetByLabelID(long labelID)
+        /// <summary>
+        /// api for Get Labels by noteId
+        /// </summary>
+        /// <param name="NotesId"></param>
+        /// <returns></returns>
+        [HttpGet("Get{NotesId}")]
+        public IActionResult Getlabel(long NotesId)
         {
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
-                var labels = this.labelBL.GetByLabelID(labelID);
+                var labels = this.labelBL.Getlabel(NotesId);
                 if (labels != null)
                 {
-                    return this.Ok(new { status = 200, isSuccess = true, message = " Specific label found Successfully", data = labels });
+                    return this.Ok(new { status = 200, isSuccess = true, message = " Specific label was found Successfully", data = labels });
                 }
                 else
-                    return this.NotFound(new { isSuccess = false, message = "Specific label not Found" });
+                    return this.NotFound(new { isSuccess = false, message = "Specific label not Found!" });
             }
             catch (Exception e)
             {
                 return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
             }
         }
+
 
         [HttpPut("Update")]
         public IActionResult UpdateLabel(LabelModel labelModel, long labelID)
