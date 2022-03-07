@@ -26,6 +26,7 @@ namespace RepositoryLayer.Interface
 
         public string ForgetPassword(string email);
         public bool ResetPassword(string email, string password, string confirmPassword);
+        public IEnumerable<User> GetAllUsers();
 
 
 

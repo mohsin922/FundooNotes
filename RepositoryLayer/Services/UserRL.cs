@@ -177,5 +177,17 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public IEnumerable<User> GetAllUsers()
+        {
+            try
+            {
+                var result = this.fundooContext.UserTables.ToList();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
