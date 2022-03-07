@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using RepositoryLayer.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -103,6 +104,27 @@
                 {
 
                     return this.BadRequest(new { isSuccess = false, message = e.InnerException.Message });
+                }
+            }
+            [HttpGet("GetAll")]
+            public IActionResult GetAllUsers()
+            {
+                try
+                {
+                    var users = userBL.GetAllUsers();
+                    if (users != null)
+                    {
+                        return this.Ok(new { isSuccess = true, message = " All users found Successfully", data = users });
+
+                    }
+                    else
+                    {
+                        return this.NotFound(new { isSuccess = false, message = "No user Found" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
         }
