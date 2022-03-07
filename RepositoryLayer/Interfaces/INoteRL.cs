@@ -1,10 +1,7 @@
 ﻿using CommonLayer.Models;
 using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RepositoryLayer.Interfaces
 {

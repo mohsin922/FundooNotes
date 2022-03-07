@@ -1,9 +1,13 @@
 ﻿namespace Microsoft.Xxx
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
     using BusinessLayer.Interfaces;
     using CommonLayer.Models;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Distributed;
@@ -11,13 +15,6 @@
     using Newtonsoft.Json;
     using RepositoryLayer.Context;
     using RepositoryLayer.Entities;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
-
     namespace FundooNotes.Controllers
     {
         [Route("api/[controller]")]
@@ -35,43 +32,45 @@
                 this.memoryCache = memoryCache;
                 this.distributedCache = distributedCache;
             }
+
             [HttpPost("Register")]
             public IActionResult addUser(UserRegistrationModel userRegModel)
             {
                 try
                 {
-                    var result = userBL.Registration(userRegModel);
+                    var result = this.userBL.Registration(userRegModel);
                     if (result != null)
                     {
                         return this.Ok(new { success = true, message = "Registration Successful", data = result });
                     }
                     else
+                    {
                         return this.BadRequest(new { success = false, message = "Registration Unsuccessful" });
+                    }
                 }
                 catch (Exception)
                 {
                     throw;
                 }
             }
-
-
             /// <summary>
             /// Get all Login Data
             /// </summary>
-            /// <param name="userLog"></param>
-            /// <returns></returns>
+            /// <param name="userLog">userLog</param>
             [HttpPost("Login")]
             public IActionResult UserLogin(UserLoginModel userLog)
             {
                 try
                 {
-                    var result = userBL.UserLogin(userLog);
+                    var result = this.userBL.UserLogin(userLog);
                     if (result != null)
                     {
                         return this.Ok(new { isSuccess = true, message = "Login Successfull!", data = result.Token });
                     }
                     else
+                    {
                         return this.BadRequest(new { isSuccess = false, message = "Login Unsuccessfull!" });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -84,13 +83,15 @@
             {
                 try
                 {
-                    var result = userBL.ForgetPassword(email);
+                    var result = this.userBL.ForgetPassword(email);
                     if (result != null)
                     {
                         return this.Ok(new { isSuccess = true, message = "Forgot Password Link sent Successfully!" });
                     }
                     else
+                    {
                         return this.BadRequest(new { isSuccess = false, message = "Email Is Incorrect.Try Again!" });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -106,28 +107,25 @@
             {
                 try
                 {
-                    //var email = User.Claims.First(e => e.Type == "Email").Value;
                     var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
-                    var result = userBL.ResetPassword(email, password, confirmPassword);
+                    var result = this.userBL.ResetPassword(email, password, confirmPassword);
                     return this.Ok(new { isSuccess = true, message = "Password Resetted Successfully!" });
-
                 }
                 catch (Exception e)
                 {
-
                     return this.BadRequest(new { isSuccess = false, message = e.InnerException.Message });
                 }
             }
+
             [HttpGet("GetAll")]
             public IActionResult GetAllUsers()
             {
                 try
                 {
-                    var users = userBL.GetAllUsers();
+                    var users = this.userBL.GetAllUsers();
                     if (users != null)
                     {
                         return this.Ok(new { isSuccess = true, message = " All users  were found Successfully!", data = users });
-
                     }
                     else
                     {
@@ -162,6 +160,7 @@
                         .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                     await distributedCache.SetAsync(cacheKey, redisUsersList, options);
                 }
+
                 return Ok(UsersList);
             }
         }

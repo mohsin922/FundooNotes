@@ -1,9 +1,13 @@
 ﻿namespace Microsoft.Xxx
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
     using BusinessLayer.Interfaces;
     using CommonLayer.Models;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Distributed;
@@ -11,17 +15,12 @@
     using Newtonsoft.Json;
     using RepositoryLayer.Context;
     using RepositoryLayer.Entities;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     namespace FundooNotes.Controllers
     {
         [Route("api/[controller]")]
         [ApiController]
-        [Authorize]  //user to grant and restrict permissions on Web pages.
+        [Authorize]  ///user to grant and restrict permissions on Web pages.
         public class LabelsController : ControllerBase
         {
             private readonly ILabelBL labelBL;
@@ -56,6 +55,7 @@
                             return this.BadRequest(new { status = 400, isSuccess = false, Message = "Label was not created" });
                         }
                     }
+
                     return this.Unauthorized(new { status = 401, isSuccess = false, Message = "Unauthorized User!" });
                 }
                 catch (Exception e)
@@ -63,13 +63,12 @@
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
-            
 
             /// <summary>
             /// api for Get Labels by noteId
             /// </summary>
-            /// <param name="NotesId"></param>
-            /// <returns></returns>
+            /// <param name="NotesId">NotesId</param>
+            /// <returns>returns</returns>
             [HttpGet("Get{NotesId}")]
             public IActionResult GetlabelByNotesId(long NotesId)
             {
@@ -82,14 +81,15 @@
                         return this.Ok(new { status = 200, isSuccess = true, message = " Specific label was found Successfully", data = labels });
                     }
                     else
+                    {
                         return this.NotFound(new { isSuccess = false, message = "Specific label was not Found!" });
+                    }
                 }
                 catch (Exception e)
                 {
                     return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
-
 
             [HttpPut("Update")]
             public IActionResult UpdateLabel(LabelModel labelModel, long labelID)
@@ -112,11 +112,12 @@
                     return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
+
             /// <summary>
-            /// Api for Deleting a label by labelID
+            /// API for Deleting a label by labelID
             /// </summary>
-            /// <param name="labelID"></param>
-            /// <returns></returns>
+            /// <param name="labelID">labelId</param>
+            /// <returns>returns</returns>
             [HttpDelete("Delete")]
             public IActionResult DeleteLabel(long labelID)
             {
@@ -148,7 +149,7 @@
             {
                 try
                 {
-                    var labels = labelBL.GetAllLabels();
+                    var labels = this.labelBL.GetAllLabels();
                     if (labels != null)
                     {
                         return this.Ok(new { status = 200, isSuccess = true, Message = " All labels were found Successfully!", data = labels });
@@ -186,9 +187,9 @@
                         .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                     await distributedCache.SetAsync(cacheKey, redisLabelsList, options);
                 }
+
                 return Ok(LabelsList);
             }
-
         }
     }
 }

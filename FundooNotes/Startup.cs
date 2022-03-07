@@ -1,3 +1,4 @@
+using System.Text;
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +14,6 @@ using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Interfaces;
 using RepositoryLayer.Services;
-using System.Text;
 
 namespace FundooNotes
 {
@@ -31,7 +31,6 @@ namespace FundooNotes
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
-
 
             services.AddSwaggerGen(c =>
             {
@@ -60,10 +59,10 @@ namespace FundooNotes
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     { securitySchema, new[] { "Bearer" } }
-
                 });
             });
-            //var jwtSection = Configuration.GetSection("Jwt:Key");
+
+            ///var jwtSection = Configuration.GetSection("Jwt:Key");
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -81,9 +80,8 @@ namespace FundooNotes
 
                     ValidateIssuerSigningKey = true,
 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:secKey"])) //Configuration["JwtToken:SecretKey"]
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:secKey"])) ///Configuration["JwtToken:SecretKey"]
                 };
-
             });
 
             services.AddTransient<IUserBL, UserBL>();
@@ -126,7 +124,6 @@ namespace FundooNotes
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

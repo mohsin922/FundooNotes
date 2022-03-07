@@ -1,10 +1,6 @@
 ﻿using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
 using RepositoryLayer.entities;
-using RepositoryLayer.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLayer.Interfaces
 {
