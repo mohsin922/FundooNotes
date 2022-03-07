@@ -303,7 +303,7 @@
             }
 
             [HttpGet("redis")]
-            public async Task<IActionResult> GetAllCustomersUsingRedisCache()
+            public async Task<IActionResult> GetAllNotesUsingRedisCache()
             {
                 var cacheKey = "NoteList";
                 string serializedNoteList;

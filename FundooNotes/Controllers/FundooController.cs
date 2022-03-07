@@ -5,11 +5,17 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Caching.Memory;
+    using Newtonsoft.Json;
+    using RepositoryLayer.Context;
     using RepositoryLayer.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
+    using System.Text;
     using System.Threading.Tasks;
 
     namespace FundooNotes.Controllers
@@ -19,9 +25,15 @@
         public class UserController : ControllerBase
         {
             private readonly IUserBL userBL;
-            public UserController(IUserBL userBL)
+            private readonly FundooContext fundooContext;
+            private readonly IMemoryCache memoryCache;
+            private readonly IDistributedCache distributedCache;
+            public UserController(IUserBL userBL, FundooContext fundooContext, IMemoryCache memoryCache, IDistributedCache distributedCache)
             {
                 this.userBL = userBL;
+                this.fundooContext = fundooContext;
+                this.memoryCache = memoryCache;
+                this.distributedCache = distributedCache;
             }
             [HttpPost("Register")]
             public IActionResult addUser(UserRegistrationModel userRegModel)
@@ -126,6 +138,31 @@
                 {
                     return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
                 }
+            }
+
+            [HttpGet("redis")]
+            public async Task<IActionResult> GetAllUsersUsingRedisCache()
+            {
+                var cacheKey = "UsersList";
+                string serializedUsersList;
+                var UsersList = new List<User>();
+                var redisUsersList = await distributedCache.GetAsync(cacheKey);
+                if (redisUsersList != null)
+                {
+                    serializedUsersList = Encoding.UTF8.GetString(redisUsersList);
+                    UsersList = JsonConvert.DeserializeObject<List<User>>(serializedUsersList);
+                }
+                else
+                {
+                    UsersList = await fundooContext.UserTables.ToListAsync();  // Comes from Microsoft.EntityFrameworkCore Namespace
+                    serializedUsersList = JsonConvert.SerializeObject(UsersList);
+                    redisUsersList = Encoding.UTF8.GetBytes(serializedUsersList);
+                    var options = new DistributedCacheEntryOptions()
+                        .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                    await distributedCache.SetAsync(cacheKey, redisUsersList, options);
+                }
+                return Ok(UsersList);
             }
         }
     }
