@@ -32,24 +32,11 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
-        public IEnumerable<Label> GetAllLabels(long userId)
+        public List<Label> GetlabelByNotesId(long NotesId)
         {
             try
             {
-                return labelRL.GetAllLabels(userId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        public List<Label> Getlabel(long NotesId)
-        {
-            try
-            {
-                return labelRL.Getlabel(NotesId);
+                return labelRL.GetlabelByNotesId(NotesId);
             }
             catch (Exception)
             {
@@ -74,6 +61,19 @@ namespace BusinessLayer.Services
             try
             {
                 return labelRL.DeleteLabel(labelID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<Label> GetAllLabels()
+        {
+            try
+            {
+                return labelRL.GetAllLabels();
             }
             catch (Exception)
             {

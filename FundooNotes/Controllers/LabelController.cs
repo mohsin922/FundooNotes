@@ -39,11 +39,11 @@
                         var result = this.labelBL.CreateLabel(labelModel);
                         if (result)
                         {
-                            return this.Ok(new { status = 200, isSuccess = true, Message = "Label created successfully!", data = labelModel.LabelName });
+                            return this.Ok(new { status = 200, isSuccess = true, Message = "Label is been created Successfully!", data = labelModel.LabelName });
                         }
                         else
                         {
-                            return this.BadRequest(new { status = 400, isSuccess = false, Message = "Label not created" });
+                            return this.BadRequest(new { status = 400, isSuccess = false, Message = "Label was not created" });
                         }
                     }
                     return this.Unauthorized(new { status = 401, isSuccess = false, Message = "Unauthorized User!" });
@@ -53,26 +53,7 @@
                     return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
                 }
             }
-            [HttpGet("GetAll")]
-            public IActionResult GetAllLabels(long userId)
-            {
-                try
-                {
-                    var labels = labelBL.GetAllLabels(userId);
-                    if (labels != null)
-                    {
-                        return this.Ok(new { status = 200, isSuccess = true, Message = " All labels found Successfully", data = labels });
-                    }
-                    else
-                    {
-                        return this.NotFound(new { isSuccess = false, Message = "No label found" });
-                    }
-                }
-                catch (Exception e)
-                {
-                    return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
-                }
-            }
+            
 
             /// <summary>
             /// api for Get Labels by noteId
@@ -80,18 +61,18 @@
             /// <param name="NotesId"></param>
             /// <returns></returns>
             [HttpGet("Get{NotesId}")]
-            public IActionResult Getlabel(long NotesId)
+            public IActionResult GetlabelByNotesId(long NotesId)
             {
                 try
                 {
                     long userId = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
-                    var labels = this.labelBL.Getlabel(NotesId);
+                    var labels = this.labelBL.GetlabelByNotesId(NotesId);
                     if (labels != null)
                     {
                         return this.Ok(new { status = 200, isSuccess = true, message = " Specific label was found Successfully", data = labels });
                     }
                     else
-                        return this.NotFound(new { isSuccess = false, message = "Specific label not Found!" });
+                        return this.NotFound(new { isSuccess = false, message = "Specific label was not Found!" });
                 }
                 catch (Exception e)
                 {
@@ -140,6 +121,31 @@
                     else
                     {
                         return this.NotFound(new { isSuccess = false, message = "Label was not found" });
+                    }
+                }
+                catch (Exception e)
+                {
+                    return this.BadRequest(new { Status = 401, isSuccess = false, Message = e.InnerException.Message });
+                }
+            }
+
+            /// <summary>
+            /// Created GetAll api
+            /// </summary>
+            /// <returns></returns>
+            [HttpGet("GetAll")]
+            public IActionResult GetAllLabels()
+            {
+                try
+                {
+                    var labels = labelBL.GetAllLabels();
+                    if (labels != null)
+                    {
+                        return this.Ok(new { status = 200, isSuccess = true, Message = " All labels were found Successfully!", data = labels });
+                    }
+                    else
+                    {
+                        return this.NotFound(new { isSuccess = false, Message = "No label found" });
                     }
                 }
                 catch (Exception e)

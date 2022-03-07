@@ -126,7 +126,7 @@
                     var users = userBL.GetAllUsers();
                     if (users != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = " All users found Successfully", data = users });
+                        return this.Ok(new { isSuccess = true, message = " All users  were found Successfully!", data = users });
 
                     }
                     else

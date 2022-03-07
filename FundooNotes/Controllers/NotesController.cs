@@ -72,7 +72,7 @@
                     var notes = notebl.RetrieveAllNotes(userId);
                     if (notes != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = " All Notes are Displayed Successfully!", data = notes });
+                        return this.Ok(new { isSuccess = true, message = " All Notes of User are Displayed Successfully!", data = notes });
 
                     }
                     else
@@ -113,7 +113,7 @@
                     List<Note> notes = this.notebl.RetrieveNote(NotesId);
                     if (notes != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = "Note found Successfully!", data = notes });
+                        return this.Ok(new { isSuccess = true, message = "Specific Note was found Successfully!", data = notes });
                     }
                     else
                         return this.NotFound(new { isSuccess = false, message = "Note not Found!" });

@@ -28,7 +28,7 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public IEnumerable<Collaborator> GetAllCollabs(long NotesId)
+        public IEnumerable<Collaborator> GetCollabsbyNoteId(long NotesId)
         {
             try
             {

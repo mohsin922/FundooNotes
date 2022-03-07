@@ -66,15 +66,15 @@
             }
 
             [HttpGet("Get")]
-            public IActionResult GetAllCollabs(long NotesId)
+            public IActionResult GetCollabsbyNoteId(long NotesId)
             {
                 try
                 {
                     long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                    var result = collabBL.GetAllCollabs(NotesId);
+                    var result = collabBL.GetCollabsbyNoteId(NotesId);
                     if (result != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = result });
+                        return this.Ok(new { isSuccess = true, message = " All Collaborators of Specific NoteID were found Successfully", data = result });
 
                     }
                     else
@@ -117,12 +117,12 @@
                     var collabs = collabBL.GetAllCollabs();
                     if (collabs != null)
                     {
-                        return this.Ok(new { isSuccess = true, message = " All Collaborators found Successfully", data = collabs });
+                        return this.Ok(new { isSuccess = true, message = " All Collaborators were found Successfully", data = collabs });
 
                     }
                     else
                     {
-                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found" });
+                        return this.NotFound(new { isSuccess = false, message = "No Collaborator  Found!" });
                     }
                 }
                 catch (Exception ex)
@@ -135,19 +135,19 @@
             public async Task<IActionResult> GetAllCollaboratorUsingRedisCache()
             {
                 var cacheKey = "CollabsList";
-                string serializedList;
+                string serializedCollabsList;
                 var CollabsList = new List<Collaborator>();
                 var redisCollabsList = await distributedCache.GetAsync(cacheKey);
                 if (redisCollabsList != null)
                 {
-                    serializedList = Encoding.UTF8.GetString(redisCollabsList);
-                    CollabsList = JsonConvert.DeserializeObject<List<Collaborator>>(serializedList);
+                    serializedCollabsList = Encoding.UTF8.GetString(redisCollabsList);
+                    CollabsList = JsonConvert.DeserializeObject<List<Collaborator>>(serializedCollabsList);
                 }
                 else
                 {
                     CollabsList = await fundooContext.CollabTable.ToListAsync();  // Comes from Microsoft.EntityFrameworkCore Namespace
-                    serializedList = JsonConvert.SerializeObject(CollabsList);
-                    redisCollabsList = Encoding.UTF8.GetBytes(serializedList);
+                    serializedCollabsList = JsonConvert.SerializeObject(CollabsList);
+                    redisCollabsList = Encoding.UTF8.GetBytes(serializedCollabsList);
                     var options = new DistributedCacheEntryOptions()
                         .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
                         .SetSlidingExpiration(TimeSpan.FromMinutes(2));
