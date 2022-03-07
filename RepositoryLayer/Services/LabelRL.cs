@@ -62,7 +62,7 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="NotesId"></param>
         /// <returns></returns>
-        public List<Label> GetlabelByNotesId(long NotesId)
+        public List<Label> Getlabel(long NotesId)
         {
             try
             {

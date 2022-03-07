@@ -77,13 +77,13 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="NotesId"></param>
         /// <returns></returns>
-        [HttpGet("GetByNotesId")]
-        public IActionResult GetlabelByNotesId(long NotesId)
+        [HttpGet("Get{NotesId}")]
+        public IActionResult Getlabel(long NotesId)
         {
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(X => X.Type == "Id").Value);
-                var labels = this.labelBL.GetlabelByNotesId(NotesId);
+                var labels = this.labelBL.Getlabel(NotesId);
                 if (labels != null)
                 {
                     return this.Ok(new { status = 200, isSuccess = true, message = " Specific label was found Successfully", data = labels });

@@ -45,11 +45,11 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public List<Label> GetlabelByNotesId(long NotesId)
+        public List<Label> Getlabel(long NotesId)
         {
             try
             {
-                return labelRL.GetlabelByNotesId(NotesId);
+                return labelRL.Getlabel(NotesId);
             }
             catch (Exception)
             {

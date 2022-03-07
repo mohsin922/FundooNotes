@@ -66,6 +66,19 @@ namespace RepositoryLayer.Services
             PasswordEntered = Convert.ToBase64String(hide);
             return PasswordEntered;
         }
+
+        private string Decrypt(string encryptpass)
+        {
+            string decrypt = string.Empty;
+            UTF8Encoding encodepwd = new UTF8Encoding();
+            Decoder Decode = encodepwd.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encryptpass);
+            int charCount = Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            decrypt = new String(decoded_char);
+            return decrypt;
+        }
         /// <summary>
         /// Show All Registerd Login Data
         /// </summary>
@@ -75,8 +88,8 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var existingLogin = this.fundooContext.UserTables.Where(X => X.Email == userLog.Email && X.Password == userLog.Password).FirstOrDefault();
-                if (existingLogin != null)
+                var existingLogin = this.fundooContext.UserTables.Where(X => X.Email == userLog.Email).FirstOrDefault();
+                if (Decrypt(existingLogin.Password) == userLog.Password)
                 {
                     LoginResponseModel login = new LoginResponseModel();
                     string token = GenerateSecurityToken(existingLogin.Email, existingLogin.Id);
