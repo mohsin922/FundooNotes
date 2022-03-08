@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace CommonLayer.Models
+﻿namespace CommonLayer.Models
 {
+    using System;
+
     public class LabelModel
     {
         public string LabelName { get; set; }

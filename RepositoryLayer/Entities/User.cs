@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RepositoryLayer.Entities
+﻿namespace RepositoryLayer.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class User
     {
         [Key]
@@ -27,6 +27,6 @@ namespace RepositoryLayer.Entities
 
         public DateTime? CreatedAt { get; set; }  // ? Allow the Nullable value
         public DateTime? ModifiedAt { get; set; }
-        
+
     }
 }

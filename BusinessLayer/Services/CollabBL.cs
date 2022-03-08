@@ -1,12 +1,12 @@
-﻿using BusinessLayer.Interfaces;
-using CommonLayer.Models;
-using RepositoryLayer.entities;
-using RepositoryLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Services
+﻿namespace BusinessLayer.Services
 {
+    using BusinessLayer.Interfaces;
+    using CommonLayer.Models;
+    using RepositoryLayer.entities;
+    using RepositoryLayer.Interfaces;
+    using System;
+    using System.Collections.Generic;
+
     public class CollabBL : ICollabBL
     {
         private readonly ICollabRL collabRL;

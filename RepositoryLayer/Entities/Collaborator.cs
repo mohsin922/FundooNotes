@@ -1,10 +1,9 @@
-﻿using RepositoryLayer.Entities;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RepositoryLayer.entities
+﻿namespace RepositoryLayer.entities
 {
+    using RepositoryLayer.Entities;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     public class Collaborator
     {
         [Key]

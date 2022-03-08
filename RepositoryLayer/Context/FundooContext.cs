@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RepositoryLayer.entities;
-using RepositoryLayer.Entities;
-
-namespace RepositoryLayer.Context
+﻿namespace RepositoryLayer.Context
 {
+    using Microsoft.EntityFrameworkCore;
+    using RepositoryLayer.entities;
+    using RepositoryLayer.Entities;
+
+
     public class FundooContext : DbContext ///dbcontext-for data accessibility
     {
         public FundooContext(DbContextOptions options)

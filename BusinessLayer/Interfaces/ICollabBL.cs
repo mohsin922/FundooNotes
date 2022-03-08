@@ -1,9 +1,9 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.entities;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.entities;
+    using System.Collections.Generic;
+
     public interface ICollabBL
     {
         public bool AddCollaboration(CollabModel collabModel);

@@ -1,22 +1,23 @@
-using System.Text;
-using BusinessLayer.Interfaces;
-using BusinessLayer.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using RepositoryLayer.Context;
-using RepositoryLayer.Interface;
-using RepositoryLayer.Interfaces;
-using RepositoryLayer.Services;
-
 namespace FundooNotes
 {
+    using System.Text;
+    using BusinessLayer.Interfaces;
+    using BusinessLayer.Services;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
+    using RepositoryLayer.Context;
+    using RepositoryLayer.Interface;
+    using RepositoryLayer.Interfaces;
+    using RepositoryLayer.Services;
+
+
     public class Startup
     {
         public Startup(IConfiguration configuration)

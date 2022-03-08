@@ -1,13 +1,12 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Context;
-using RepositoryLayer.Entities;
-using RepositoryLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RepositoryLayer.Services
+﻿namespace RepositoryLayer.Services
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Context;
+    using RepositoryLayer.Entities;
+    using RepositoryLayer.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     public class LabelRL : ILabelRL
     {
         public readonly FundooContext fundooContext; //context class is used to query or save data to the database.

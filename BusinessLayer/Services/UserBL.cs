@@ -1,12 +1,12 @@
-﻿using BusinessLayer.Interfaces;
-using CommonLayer.Models;
-using RepositoryLayer.Entities;
-using RepositoryLayer.Interface;
-using System;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Services
+﻿namespace BusinessLayer.Services
 {
+    using BusinessLayer.Interfaces;
+    using CommonLayer.Models;
+    using RepositoryLayer.Entities;
+    using RepositoryLayer.Interface;
+    using System;
+    using System.Collections.Generic;
+
     public class UserBL : IUserBL
     {
         private readonly IUserRL userRL;

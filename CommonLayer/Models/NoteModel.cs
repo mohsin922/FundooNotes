@@ -1,10 +1,10 @@
-﻿using System;
-
-namespace CommonLayer.Models
+﻿namespace CommonLayer.Models
 {
+    using System;
+
     public class NoteModel
     {
-        
+
         public string Title { get; set; }
         public string NoteBody { get; set; }
         public bool IsDeleted { get; set; }
