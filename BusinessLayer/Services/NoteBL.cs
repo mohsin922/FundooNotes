@@ -1,13 +1,13 @@
-﻿using BusinessLayer.Interfaces;
-using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
-using RepositoryLayer.Entities;
-using RepositoryLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Services
+﻿namespace BusinessLayer.Services
 {
+    using BusinessLayer.Interfaces;
+    using CommonLayer.Models;
+    using Microsoft.AspNetCore.Http;
+    using RepositoryLayer.Entities;
+    using RepositoryLayer.Interfaces;
+    using System;
+    using System.Collections.Generic;
+
     public class NoteBL : INoteBL
     {
         private readonly INoteRL noteRL;
@@ -24,7 +24,7 @@ namespace BusinessLayer.Services
         {
             try
             {
-                return this.noteRL.CreateNote(noteModel,userId);
+                return this.noteRL.CreateNote(noteModel, userId);
             }
             catch (Exception)
             {

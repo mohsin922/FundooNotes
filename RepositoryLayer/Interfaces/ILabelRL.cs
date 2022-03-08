@@ -1,9 +1,8 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
-namespace RepositoryLayer.Interfaces
+﻿namespace RepositoryLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
     public interface ILabelRL
     {
         public bool CreateLabel(LabelModel labelModel);

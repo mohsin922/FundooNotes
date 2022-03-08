@@ -1,9 +1,8 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
-namespace RepositoryLayer.Interface
+﻿namespace RepositoryLayer.Interface
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
     public interface IUserRL
     {
         /// <summary>
@@ -25,8 +24,6 @@ namespace RepositoryLayer.Interface
         public string ForgetPassword(string email);
         public bool ResetPassword(string email, string password, string confirmPassword);
         public IEnumerable<User> GetAllUsers();
-
-
 
     }
 }

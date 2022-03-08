@@ -1,9 +1,8 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
     public interface ILabelBL
     {
         public bool CreateLabel(LabelModel labelModel);

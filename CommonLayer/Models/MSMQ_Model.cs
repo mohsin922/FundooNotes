@@ -1,12 +1,12 @@
-﻿using Experimental.System.Messaging;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-
-namespace CommonLayer.Models
+﻿namespace CommonLayer.Models
 {
+    using Experimental.System.Messaging;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+
     public class MSMQ_Model
     {
         MessageQueue messageQueue = new MessageQueue();
@@ -32,7 +32,7 @@ namespace CommonLayer.Models
             var message = messageQueue.EndReceive(e.AsyncResult);
             string token = message.Body.ToString();
             string Subject = "Fundoo Notes Reset Link";
-            string Body = token;
+            string Body = "Dear Sir/mam! Please copy the token provided for Resetting your Password:" + token;
             string JWT = DecodeJWT(token);
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {

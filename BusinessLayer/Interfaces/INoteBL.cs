@@ -1,10 +1,10 @@
-﻿using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
-namespace BusinessLayer.Interfaces
+﻿namespace BusinessLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using Microsoft.AspNetCore.Http;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
+
     public interface INoteBL
     {
         public bool CreateNote(NoteModel noteModel, long userId);

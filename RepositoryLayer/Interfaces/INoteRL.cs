@@ -1,10 +1,9 @@
-﻿using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
-namespace RepositoryLayer.Interfaces
+﻿namespace RepositoryLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using Microsoft.AspNetCore.Http;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
     public interface INoteRL
     {
         public bool CreateNote(NoteModel noteModel, long userId);

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace CommonLayer.Models
+﻿namespace CommonLayer.Models
 {
+
+    using System;
     /// <summary>
     /// Model class for getting Email and password
     /// </summary>

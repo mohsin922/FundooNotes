@@ -1,13 +1,13 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Context;
-using RepositoryLayer.entities;
-using RepositoryLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RepositoryLayer.Services
+﻿namespace RepositoryLayer.Services
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Context;
+    using RepositoryLayer.entities;
+    using RepositoryLayer.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class CollabRL : ICollabRL
     {
         /// <summary>

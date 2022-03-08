@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace CommonLayer.Models
-{/// <summary>
- /// Model class for registering all the details required to (sign up)
- /// </summary>
+﻿namespace CommonLayer.Models
+{
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    /// <summary>
+    /// Model class for registering all the details required to (sign up)
+    /// </summary>
     public class UserRegistrationModel
     {
         [Required]

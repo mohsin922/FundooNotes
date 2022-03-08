@@ -1,9 +1,10 @@
-﻿using CommonLayer.Models;
-using RepositoryLayer.Entities;
-using System.Collections.Generic;
-
+﻿
 namespace BusinessLayer.Interfaces
 {
+    using CommonLayer.Models;
+    using RepositoryLayer.Entities;
+    using System.Collections.Generic;
+
     public interface IUserBL
     {
         public User Registration(UserRegistrationModel userRegModel);

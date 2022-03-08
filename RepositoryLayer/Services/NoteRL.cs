@@ -1,17 +1,17 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using RepositoryLayer.Context;
-using RepositoryLayer.Entities;
-using RepositoryLayer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RepositoryLayer.Services
+﻿namespace RepositoryLayer.Services
 {
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using CommonLayer.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using RepositoryLayer.Context;
+    using RepositoryLayer.Entities;
+    using RepositoryLayer.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class NoteRL : INoteRL
     {
         public readonly FundooContext fundooContext;
@@ -169,7 +169,7 @@ namespace RepositoryLayer.Services
                     return false;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 {
                     throw;
@@ -303,9 +303,7 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-
     }
 }
-        
 
-  
+
